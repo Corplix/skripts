@@ -1,0 +1,52 @@
+# MADE BY CORPLIX
+# REQUIRES SkBee
+# A SIMPLE FONT COMMAND THAT CONVERTS TEXT INTO A CERTAIN UNICODE FONT
+# CURRENT FONTS ARE: small
+
+command /font [<text>] [<text>]:
+	permission: font.use
+	permission message: "&cYou cannot use this feature."
+	usage: &f/font &b<font-type> &e<font text>
+	trigger:
+		if arg-1 is not set:
+			send "&aPlease specify the font you would like to use"
+			send "&eList of fonts - 'small'"
+		else if arg-2 is not set:
+			send "&aSpecify the text you would like to convert."
+		else if arg-1 is "small":
+			set {font} to arg-2
+		
+			replace every "a" with "ᴀ" in {font}
+			replace every "b" with "ʙ" in {font}
+			replace every "c" with "ᴄ" in {font}
+			replace every "d" with "ᴅ" in {font}
+			replace every "e" with "ᴇ" in {font}
+			replace every "f" with "ғ" in {font}
+			replace every "g" with "ɢ" in {font}
+			replace every "h" with "ʜ" in {font}
+			replace every "i" with "ɪ" in {font}
+			replace every "j" with "ᴊ" in {font}
+			replace every "k" with "ᴋ" in {font}
+			replace every "l" with "ʟ" in {font}
+			replace every "m" with "ᴍ" in {font}
+			replace every "n" with "ɴ" in {font}
+			replace every "o" with "ᴏ" in {font}
+			replace every "p" with "ᴘ" in {font}
+			replace every "r" with "ʀ" in {font}
+			replace every "s" with "s" in {font}
+			replace every "t" with "ᴛ" in {font}
+			replace every "u" with "ᴜ" in {font}
+			replace every "v" with "ᴠ" in {font}
+			replace every "w" with "ᴡ" in {font}
+			replace every "x" with "x" in {font} 
+			replace every "y" with "ʏ" in {font} 
+			replace every "z" with "ᴢ" in {font} 
+			set {link} to "<suggest command:%arg-2%>text<reset>"
+			set {_t} to text component from "%{font}%"
+			set hover event of {_t} to a new hover event showing "&bClick me to copy!"
+			set click event of {_t} to a new click event to copy "%{font}%" to clipboard
+			send "&9&m                                         "
+			send component {_t} to player
+			send "&9&m                                         "
+		else:
+			send "&cUnknown font."
