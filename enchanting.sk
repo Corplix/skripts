@@ -1,0 +1,122 @@
+# MADE BY CORPLIX 
+# A CUSTOM ANVIL-LIKE GUI FOR ENCHANTED BOOKS (REGULAR BOOKS ENCHANTED WITH ENCHANTMENTS)
+# TO APPLY ANY ENCHANTMENT TO ANY ITEM AND BYPASSES ENCHANTMENT LIMIT BOOK COMBINATIONS IN GUI
+
+
+
+
+on right click on cartography table:
+	cancel event
+	execute player command "/enchanting"
+
+command /enchanting:
+	trigger:
+		set {_gui} to a new chest inventory with 3 row with name "Apply Special Books"
+		set slot 0 of {_gui} to blue stained glass pane named " "
+		set slot 1 of {_gui} to blue stained glass pane named " "
+		set slot 2 of {_gui} to blue stained glass pane named " "
+		set slot 3 of {_gui} to blue stained glass pane named " "
+		set slot 4 of {_gui} to red stained glass pane named " "
+		set slot 5 of {_gui} to blue stained glass pane named " "
+		set slot 6 of {_gui} to blue stained glass pane named " "
+		set slot 7 of {_gui} to blue stained glass pane named " "
+		set slot 8 of {_gui} to blue stained glass pane named " "
+		set slot 9 of {_gui} to blue stained glass pane named " "
+		set slot 11 of {_gui} to black stained glass pane named " "
+		set slot 12 of {_gui} to black stained glass pane named " "
+		set slot 13 of {_gui} to light gray stained glass pane named "&7Result item will show here!"
+		set slot 14 of {_gui} to black stained glass pane named " "
+		set slot 15 of {_gui} to black stained glass pane named " "
+		set slot 17 of {_gui} to blue stained glass pane named " "
+		set slot 18 of {_gui} to blue stained glass pane named " "
+		set slot 19 of {_gui} to blue stained glass pane named " "
+		set slot 20 of {_gui} to blue stained glass pane named " "
+		set slot 21 of {_gui} to blue stained glass pane named " "
+		set slot 22 of {_gui} to blue stained glass pane named " "
+		set slot 23 of {_gui} to blue stained glass pane named " "
+		set slot 24 of {_gui} to blue stained glass pane named " "
+		set slot 25 of {_gui} to blue stained glass pane named " "
+		set slot 26 of {_gui} to blue stained glass pane named " "
+		set slot 27 of {_gui} to blue stained glass pane named " "
+		open {_gui} to player
+ 
+on inventory click:
+	if name of event-inventory is "Apply Special Books":
+		clicked inventory is not event-player's inventory
+		if event-item is blue stained glass pane or black stained glass pane or lime stained glass pane or red stained glass pane or light gray stained glass pane or yellow stained glass pane:
+			cancel event
+			#send "You clicked on the slot 0 !"
+
+on inventory click:
+	if name of event-inventory is "Apply Special Books":
+		clicked inventory is not event-player's inventory
+		if index of event-slot = 10:
+			wait 1 tick
+			set {_mainitem} to slot 10 of event-inventory
+#			send "&e%{_mainitem}% &6added to the Main item slot!" to player
+		if index of event-slot = 16:
+			wait 1 tick
+			if slot 16 of event-inventory is not a book:
+				send "&cThat item is not a book!"
+				set {_applyitem} to slot 16 of event-inventory
+				wait 1 tick
+				set slot 16 of event-inventory to air
+				give {_applyitem} to player
+			else:
+				wait 1 tick
+				set {_applyitem} to slot 16 of event-inventory
+#				send "&e%{_applyitem}% &6added to the apply slot!"
+on inventory click:
+	if name of event-inventory is "Apply Special Books":
+		clicked inventory is not event-player's inventory
+		wait 1 tick
+		if slot 13 of event-inventory is not light gray stained glass pane:
+			if slot 13 of event-inventory is air:
+				set slot 10 of event-inventory to air
+				set slot 16 of event-inventory to air
+				set slot 13 of event-inventory to light gray stained glass pane
+		if slot 16 of event-inventory is not air:
+			if slot 10 of event-inventory is not air:
+				set slot 4 of event-inventory to lime stained glass pane named "&aSuccess!"
+				if slot 16 of event-inventory is enchanted:
+#					set {ench} to enchantments of slot 16 of event-inventory
+					if slot 10 of event-inventory is not air:
+						if slot 16 of event-inventory is not air:
+							if slot 10 of event-inventory is book:
+								if slot 10 of event-inventory is enchanted:
+									if enchantments of slot 16 of event-inventory = enchantments of slot 10 of event-inventory:
+										send "&aSuccessfully combined!" to player
+										set {_mainitem} to slot 10 of event-inventory
+										set {_enchantments::*} to the enchantments of {_mainitem}
+										set {_enchantment} to the first element of {_enchantments::*}
+										set {_current.level} to the enchantment level of {_enchantment}+1
+										set {_enchantment} to the enchantment of {_enchantment} 
+										
+										disenchant {_mainitem}
+										enchant {_mainitem} with "%{_enchantment}% %{_current.level}%" parsed as enchantment type
+										
+										set slot 13 of event-inventory to {_mainitem}
+									else:
+										set slot 4 of event-inventory to orange stained glass pane named "&6Books are not of the same level!"
+										set slot 13 of event-inventory to light gray stained glass pane named "&7Result item will apear here!"
+								else:
+									set slot 4 of event-inventory to red stained glass pane named "&6You cannot combine with regular books"
+									set slot 13 of event-inventory to light gray stained glass pane named "&7Result item will apear here!"
+							else:
+								wait 1 tick
+								send "&aEnchantment Applicable!"
+								set {_mainitem} to slot 10 of event-inventory
+								enchant {_mainitem} with enchantments of slot 16 of event-inventory
+								set slot 13 of event-inventory to {_mainitem}
+			
+				else:
+					set slot 4 of event-inventory to yellow stained glass pane named "&eThe book is not enchanted!"
+					send "&cNot applicable!"
+					set slot 13 of event-inventory to light gray stained glass pane named "&7Result item will apear here!"
+			else:
+				set slot 13 of event-inventory to light gray stained glass pane named "&7Result item will apear here!"
+				set slot 4 of event-inventory to red stained glass pane named "&cNot applicable"
+				
+		else:
+			set slot 13 of event-inventory to light gray stained glass pane named "&7Result item will apear here!"
+			set slot 4 of event-inventory to red stained glass pane named "&cNot applicable"
